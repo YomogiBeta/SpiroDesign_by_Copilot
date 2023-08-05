@@ -1,0 +1,8 @@
+*__target__
+*__pycache__
+*build
+*dist
+MetricsCyclomaticComplexity.txt
+MetricsMaintainabilityIndex.txt
+MetricsRaw.txt
+.python-version

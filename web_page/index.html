@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <title>SpiroDesign by web</title>
+    <link rel="icon" href="../resource/spirodesign.ico" />
+    <link rel="stylesheet" href="styles/font-load.css" />
+    <link rel="stylesheet" href="styles/style.css" />
+</head>
+
+<body>
+    <div class="colorContainer">
+        <input type="color" id="color_selector" />
+    </div>
+    <div class="panelContainer">
+        <div id="__panel__"></div>
+    </div>
+    <!-- <input type="file" id="file_selector" /> -->
+    <dialog id="slider-panel">
+        <div class="panel">
+            <input type="range" id="slider" min="2" max="10" step="0.01" />
+            <output id="slider-label">None</output>
+            <button class="mantine-button" id="slider-decide-button">OK</button>
+        </div>
+    </dialog>
+
+    <dialog id="safari_color_picker_dialog">
+        <div class="panel">
+            <p>↓色を選択する↓</p>
+            <input type="color" id="safari_color_picker" />
+            <button class="mantine-button" id="safari_color_picker_decide_button">OK</button>
+        </div>
+    </dialog>
+
+    <dialog id="safari_file_selector_dialog">
+        <div class="panel">
+            <p>↓ファイルを選択する↓</p>
+            <input type="file" id="file_selector" />
+        </div>
+    </dialog>
+
+    <script src="Javascript/showSliderValue.js"></script>
+    <script src="Javascript/buf2hex.js"></script>
+    <script type="module" src="../__target__/main.js"></script>
+    <script src="Javascript/lib/numjs.min.js"></script>
+    <script src="Javascript/lib/buffer.js"></script>
+    <script src="Javascript/convertTouchToMouse.js"></script>
+    <script src="Javascript/hackSafariElementClick.js"></script>
+</body>
+
+</html>

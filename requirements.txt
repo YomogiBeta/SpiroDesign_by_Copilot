@@ -1,0 +1,10 @@
+# dependencies
+pygame==2.5.0
+numpy
+
+# dev dependencies
+autopep8
+pep8-naming
+transcrypt
+cx_Freeze
+radon

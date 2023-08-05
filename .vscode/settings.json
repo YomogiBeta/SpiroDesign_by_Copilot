@@ -1,0 +1,18 @@
+{
+ "python.linting.flake8Enabled": true,
+ "python.formatting.provider": "autopep8",
+ "python.analysis.typeCheckingMode": "off",
+ "[python]": {
+  "editor.tabSize": 4,
+  "editor.insertSpaces": true,
+  "editor.formatOnSave": true
+ },
+ "terminal.integrated.profiles.osx": {
+  "rosetta": {
+   "path": "arch",
+   "args": ["-x86_64", "bash", "-l"],
+   "overrideName": true
+  }
+ },
+ "terminal.integrated.defaultProfile.osx": "rosetta",
+}

@@ -1,0 +1,10 @@
+{
+	"recommendations": [
+		"esbenp.prettier-vscode",
+		"ms-python.vscode-pylance",
+		"johnstoncode.svn-scm"
+	],
+	"unwantedRecommendations": [
+		"ms-python.autopep8"
+	]
+}

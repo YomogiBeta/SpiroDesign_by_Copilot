@@ -1,0 +1,100 @@
+body{
+	padding: 24px;
+}
+.panelContainer {
+	position: relative; 
+	height: 0; 
+	overflow: hidden; 
+	padding-top: 56.25%; 
+	max-width: 1280px; 
+	max-height: 720px; 
+	margin: 10px auto; 
+	border: 1px solid;
+}
+#__panel__ {
+	position: absolute; 
+	touch-action: pinch-zoom;
+	top: 0; 
+	left: 0; 
+	width: 100%; 
+	height: 100%; 
+	max-width: 1280px; 
+	max-height: 720px; 
+}
+
+/* #file_selector{
+	display: none;
+} */
+
+.colorContainer{
+	position: relative;
+	width: 10px;
+	height: 10px;
+}
+
+#color_selector{
+	opacity: 0;
+	z-index: -100;
+	width: 0;
+	height: 0;
+	position: absolute;
+
+}
+
+#slider-panel{
+	width: 24%;
+	background-color: white;
+	padding: 24px;
+	border-radius: 0.5rem;
+
+		/* Copy mantine Paper component's shadow */
+	box-shadow: rgba(0, 0, 0, 0.05) 0px 0.0625rem 0.1875rem, 
+		rgba(0, 0, 0, 0.05) 0px 1.25rem 1.5625rem -0.3125rem, 
+		rgba(0, 0, 0, 0.04) 0px 0.625rem 0.625rem -0.3125rem;
+
+		/*	Copy mantine Paper component's border */
+	border: 0.0625rem solid rgb(222, 226, 230);
+
+		/* Paper component: https://mantine.dev/core/paper/ */
+}
+
+.panel{
+	/* z-index: -100;
+	width: 16%; */
+	display: flex;
+	gap: 0.5rem;
+	flex-direction: column;
+	text-align: center;
+}
+
+
+/* Copy mantine Button component's style */
+/* Button component:  https://mantine.dev/core/button/ */
+.mantine-button {
+	padding: 0px 1.125rem;
+	appearance: none;
+	text-align: center;
+	text-decoration: none;
+	box-sizing: border-box;
+	height: 2rem;
+	display: inline-block;
+	width: auto;
+	border-radius: 0.25rem;
+	font-weight: 600;
+	position: relative;
+	line-height: 1;
+	font-size: 0.875rem;
+	user-select: none;
+	cursor: pointer;
+	border: 0.0625rem solid transparent;
+	background-color: rgb(34, 139, 230);
+	color: rgb(255, 255, 255);
+}
+
+.mantine-button:hover {
+	background-color: rgb(28, 126, 214);
+}
+
+.mantine-button:active {
+	transform: translateY(0.0625rem);
+}
