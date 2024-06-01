@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 __author__ = 'Yomogiβ'
-__version__ = '3.0.0'
+__version__ = '4.0.0'
 __date__ = '2023/07/06 (Created: 2023/06/22 )'
 
 from bridge_pyjs.JsonParserBridge import JsonParser

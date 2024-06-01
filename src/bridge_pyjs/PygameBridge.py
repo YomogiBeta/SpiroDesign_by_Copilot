@@ -23,6 +23,7 @@ import pygame
 import sys
 import os
 import numpy
+import zstd
 
 __author__ = 'Yomogiβ'
 __version__ = '1.1.0'
@@ -161,7 +162,7 @@ def set_callback(func) -> None:
         func()
 
 
-def make_surface(array_str: str, width: int, height: int) -> pygame.Surface:
+def make_surface(array_str: str, width: int, height: int, callback) -> None:
     """引数の16進数文字列からpygameのSurfaceを生成する
 
     Args:
@@ -171,53 +172,67 @@ def make_surface(array_str: str, width: int, height: int) -> pygame.Surface:
             Surfaceの幅.
         height (int):
             Surfaceの高さ.
-
-    Returns:
-        pygame.Surface:
-            引数の16進数文字列から生成したSurface.
+        callback (Callable[[pygame.Surface], None]):
+            生成したSurfaceを引数に取るコールバック関数.
     """
     # Python
-    array_bytes = bytes.fromhex(array_str)
+    a_compressed_bytes = bytes.fromhex(array_str)
+    array_bytes = zstd.decompress(a_compressed_bytes)
     a_array = numpy.frombuffer(array_bytes, dtype=numpy.uint8)
     a_base_surface = numpy.reshape(a_array, [width, height, 4])
     a_base_surface = a_base_surface[:, :, :3]
-    return pygame.surfarray.make_surface(a_base_surface)
+    callback(pygame.surfarray.make_surface(a_base_surface))
 
     # Javascript
-    # a_buffer = buffer.Buffer.js_from(array_str, "hex")
-    # a_array = nj.uint8(Array.js_from(a_buffer))
-    # a_viewboard_array = a_array.reshape(width, height, 4)
-    # a_viewboard_array = a_viewboard_array.transpose(1, 0)
-    # a_viewboard_array = a_viewboard_array.flatten()
-    # a_canvas_image = __new__(ImageData(Uint8ClampedArray.js_from(a_viewboard_array.selection.data), width, height))
-    # a_base_surface = pyjsarray.ImageMatrix(a_canvas_image)
-    # return pygame.surfarray.make_surface(a_base_surface)
+    # async def execute():
+        # a_compressed_buffer = buffer.Buffer.js_from(array_str, "hex")
+        # a_buffer = await zstd_webpacked.zstd_decompress(a_compressed_buffer)
+        # a_array = nj.uint8(Array.js_from(a_buffer))
+        # a_viewboard_array = a_array.reshape(width, height, 4)
+        # a_viewboard_array = a_viewboard_array.transpose(1, 0)
+        # a_viewboard_array = a_viewboard_array.flatten()
+        # a_canvas_image = __new__(
+            # ImageData(
+                # Uint8ClampedArray.js_from(a_viewboard_array.selection.data),
+                # width,
+                # height
+            # )
+        # )
+        # a_base_surface = pyjsarray.ImageMatrix(a_canvas_image)
+        # callback(pygame.surfarray.make_surface(a_base_surface))
+    # execute()
 
 
-def output_surface(target_surface: pygame.Surface) -> str:
+def output_surface(target_surface: pygame.Surface, callback) -> None:
     """引数のSurfaceの色情報を表す16進数文字列を生成する
 
     Args:
         target_surface (pygame.Surface):
             色情報を表す16進数文字列を生成するSurface.
-
-    Returns:
-        str:
-            引数のSurfaceの色情報を16進数文字列
+        callback (Callable[[str], None]):
+            生成した16進数文字列を引数に取るコールバック関数.
     """
     # Python
     a_base_surface_rgb = pygame.surfarray.array3d(target_surface)
     a_base_surface_alpha = pygame.surfarray.array_alpha(target_surface)
     a_base_surface = numpy.dstack((a_base_surface_rgb, a_base_surface_alpha))
-    return a_base_surface.tobytes().hex()
+    a_compressed_bytes = zstd.compress(a_base_surface.tobytes())
+    callback(a_compressed_bytes.hex())
 
     # Javascript
-    # a_base_surface = pygame.surfarray.array3d(target_surface)
-    # a_array = nj.uint8(a_base_surface.getArray())
-    # a_array = a_array.reshape(target_surface.get_height(), target_surface.get_width(), 4)
-    # a_array = a_array.transpose(1, 0)
-    # a_array = a_array.flatten()
-    # return buf2hex(a_array.selection.data.buffer)
+    # async def execute():
+        # a_base_surface = pygame.surfarray.array3d(target_surface)
+        # a_array = nj.uint8(a_base_surface.getArray())
+        # a_array = a_array.reshape(
+            # target_surface.get_height(),
+            # target_surface.get_width(),
+            # 4
+        # )
+        # a_array = a_array.transpose(1, 0)
+        # a_array = a_array.flatten()
+        # a_compressed_buffer = await zstd_webpacked.zstd_compress(buffer.Buffer.js_from(a_array.selection.data.buffer))
+        # callback(buf2hex(a_compressed_buffer))
+    # execute()
 
 
 def cross_hair_mouse_mode() -> None:

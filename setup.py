@@ -35,7 +35,7 @@ base = "Win32GUI" if sys.platform == "win32" else None
 
 setup(
     name="SpiroDesign_by_Copilot",
-    version="1.0.0",
+    version="1.0.1",
     description="Project Copilot's SpiroDesign by standalone",
     options={"build_exe": build_exe_options, "bdist_mac": bdist_mac_options, "bdist_dmg": bdist_dmg_options},
     executables=[Executable("src/main.py",
