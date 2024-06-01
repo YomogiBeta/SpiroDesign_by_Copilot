@@ -88,13 +88,22 @@ test:
 	env PYTHONPATH="${PYTHONPATH}:`pwd`/src" \
 	python -m unittest discover -v -s src/Tests/Controller
 
+
+zstd_build:
+	(cd zstd_wasm_builder && yarn install && npx webpack)
+	- mv zstd_wasm_builder/dist/zstd_webpacked.js web_page/Javascript/lib/zstd_webpacked.js
+	- mv zstd_wasm_builder/dist/*.wasm web_page/Javascript/lib/
+	- rm -rf zstd_wasm_builder/dist
+
 web-build-dev:
 	${MAKE} rady_javascript
+	$(MAKE) zstd_build
 	- transcrypt -n -m -od ../__target__ src/main.py
 	- ${MAKE} rady_python
 
 web-build:
 	${MAKE} rady_javascript
+	$(MAKE) zstd_build
 	- transcrypt -od ../__target__ src/main.py
 	- ${MAKE} rady_python
 	find __target__ -type f -exec sed -i '' '/\/\/# sourceMappingURL=/s/.*/''/' {} \;
