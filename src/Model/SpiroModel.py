@@ -510,7 +510,10 @@ class SpiroModel:
             if a_spiro_file_parser is None:
                 return
 
-            self.a_main_board_surface = make_surface(a_spiro_file_parser.a_board_data, BOARD_WIDTH, BOARD_HEIGHT)
+            def set_main_board_surface(a_surface: pygame.Surface) -> None:
+                self.a_main_board_surface = a_surface
+
+            make_surface(a_spiro_file_parser.a_board_data, BOARD_WIDTH, BOARD_HEIGHT, set_main_board_surface)
             self.a_main_board_surface_pos = (a_spiro_file_parser.a_board_pos_x, a_spiro_file_parser.a_board_pos_y)
             self.a_spur_gear.set_center_position(a_spiro_file_parser.a_spur_gear_center_x, a_spiro_file_parser.a_spur_gear_center_y)
             self.a_spur_gear.set_radius(a_spiro_file_parser.a_spur_gear_radius)
@@ -531,31 +534,31 @@ class SpiroModel:
         if animated:
             self.stop_animation()
 
+        def download_content_all(a_surface_str: str):
+            a_board_data = a_surface_str
+            r, g, b = self.a_pinion_gear.pen_color()
+            a_file_parser = SpiroFileParser(
+                a_board_data,
+                *self.a_main_board_surface_pos,
+                *self.a_spur_gear.center(),
+                self.a_spur_gear.radius(),
+                *self.a_pinion_gear.center(),
+                self.a_pinion_gear.radius(),
+                self.is_circumscribe,
+                *self.a_pinion_gear.pen().topleft,
+                self.a_pinion_gear.pen().width,
+                f"{r},{g},{b}"
+            )
+            # 　現在の日付をファイルネームとして変数に束縛する
+            now = datetime.datetime.now()
+            file_name = now.strftime(FIILE_NAME_FORMAT)
+            download_content(a_file_parser.encode(), file_name)
+            messagebox("ダウンロードディレクトリに保存しました")
+            if animated:
+                self.start_animation()
+
         clear_draw_surface(self.a_gear_surface)
-        board_data = output_surface(self.a_main_board_surface)
-        r, g, b = self.a_pinion_gear.pen_color()
-        file_parser = SpiroFileParser(
-            board_data,
-            *self.a_main_board_surface_pos,
-            *self.a_spur_gear.center(),
-            self.a_spur_gear.radius(),
-            *self.a_pinion_gear.center(),
-            self.a_pinion_gear.radius(),
-            self.is_circumscribe,
-            *self.a_pinion_gear.pen().topleft,
-            self.a_pinion_gear.pen().width,
-            f"{r},{g},{b}"
-        )
-
-        # 　現在の日付をファイルネームとして変数に束縛する
-        now = datetime.datetime.now()
-        file_name = now.strftime(FIILE_NAME_FORMAT)
-
-        download_content(file_parser.encode(), file_name)
-        messagebox("ダウンロードディレクトリに保存しました")
-
-        if animated:
-            self.start_animation()
+        output_surface(self.a_main_board_surface, download_content_all)
 
     def set_create_active_surface(self) -> pygame.Surface:
         """スパーギアの状態からアクティブなSutfaceを作成し、設定する
