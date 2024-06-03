@@ -86,3 +86,8 @@ CONTEXT_MENU_HOVERD_BACKGROUND_COLOR = (241, 243, 245)
 """tuple[int, int, int]: コンテキストメニューがホバーされた時の要素の色"""
 CONTEXT_MENU_DIVIDER_COLOR = (200, 200, 200)
 """tuple[int, int, int]: コンテキストメニューの区切り線の色"""
+
+LONG_PRESS_START_MILLISEC = 500
+"""int: ロングプレス判定の開始時間"""
+LONG_PRESS_INTERVAL_MILLISEC = 100
+"""int: ロングプレス判定の間隔"""

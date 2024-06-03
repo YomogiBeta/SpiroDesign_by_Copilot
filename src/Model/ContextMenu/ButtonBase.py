@@ -63,6 +63,14 @@ class ButtonBase(ClickAble):
         """ボタンを有効化します。"""
         self.a_enable = True
 
+    def enable_status(self) -> bool:
+        """ボタンが有効かどうかを取得します。
+
+        Returns:
+            bool: ボタンが有効かどうか
+        """
+        return self.a_enable
+
     def text(self) -> str:
         """ボタンのテキストを取得します。
 
@@ -72,6 +80,13 @@ class ButtonBase(ClickAble):
         return self.a_text
 
     def hover_in(self) -> None:
+        self.focus()
+
+    def hover_out(self) -> None:
+        self.un_focus()
+
+    def focus(self) -> None:
+        """ボタンにフォーカスを当てます。"""
         if self.a_enable:
             rect = self.container.get_rect()
 
@@ -81,7 +96,8 @@ class ButtonBase(ClickAble):
             self.background_color = CONTEXT_MENU_HOVERD_BACKGROUND_COLOR
             self.render(rect.x, rect.y, rect.width, rect.height)
 
-    def hover_out(self) -> None:
+    def un_focus(self) -> None:
+        """ボタンのフォーカスを外します。"""
         rect = self.container.get_rect()
 
         if self.container.is_rendered():
