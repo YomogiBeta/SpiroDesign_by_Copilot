@@ -6,6 +6,7 @@ from Model.ContextMenu.ContextMenu import ContextMenu
 from View.SpiroView import SpiroView
 from bridge_pyjs.PygameBridge import pygame, cross_hair_mouse_mode, normal_mouse_mode
 from bridge_pyjs.ExitBridge import bridge_exit
+from Constants import LONG_PRESS_START_MILLISEC, LONG_PRESS_INTERVAL_MILLISEC
 
 __author__ = 'SHIRO'
 __version__ = '1.2.1'
@@ -43,6 +44,10 @@ class SpiroController:
 
         self.mouse_shape = False
 
+        self.a_key_downed_timestamp = 0
+        self.down_keys = []
+        self.down_keys_timestamps = []
+
     def left_mouse_button_down_event(self, event: pygame.event.Event) -> None:
         """マウスの左ボタンが押された時の処理を行う.
 
@@ -62,7 +67,11 @@ class SpiroController:
                 pygameのイベントオブジェクト
         """
         self.a_context_menu_model.has_buttons_clicked(event)
-        self.a_context_menu_model.close_menu()
+        # コントロールキーが押された状態で左クリックされた時にコンテキストメニューを開く
+        if pygame.K_LCTRL in self.down_keys or pygame.K_RCTRL in self.down_keys:
+            self.a_context_menu_model.open_menu(event)
+        else:
+            self.a_context_menu_model.close_menu()
 
     def right_mouse_button_down_event(self, event: pygame.event.Event) -> None:
         """マウスの右ボタンが押された時の処理を行う.
@@ -181,6 +190,48 @@ class SpiroController:
                 normal_mouse_mode()
                 self.mouse_shape = False
 
+    def key_down_event(self, event: pygame.event.Event) -> None:
+        """キーが押された時の処理を行う"""
+        a_timestamp = pygame.time.get_ticks()
+        self.down_keys.append(event.key)
+        self.down_keys_timestamps.append(a_timestamp)
+
+        # シフトキーとF10キーが押された時にコンテキストメニューを開く
+        if pygame.K_LSHIFT in self.down_keys or pygame.K_RSHIFT in self.down_keys:
+            if pygame.K_F10 in self.down_keys:
+                event.pos = self.a_last_mouse_pos
+                self.a_context_menu_model.open_menu(event)
+
+        if pygame.K_DOWN == event.key:
+            self.a_context_menu_model.next_button_focus()
+        elif pygame.K_UP == event.key:
+            self.a_context_menu_model.prev_button_focus()
+        elif pygame.K_RETURN == event.key:
+            self.a_context_menu_model.has_focused_button_enter()
+
+    def key_long_down_event(self) -> None:
+        """キーが長押しされた時の処理を行う"""
+
+        a_down_key_index = self.down_keys.index(pygame.K_DOWN) if pygame.K_DOWN in self.down_keys else -1
+        a_up_key_index = self.down_keys.index(pygame.K_UP) if pygame.K_UP in self.down_keys else -1
+        a_current_timestamp = pygame.time.get_ticks()
+
+        if a_down_key_index != -1:
+            if a_current_timestamp - self.down_keys_timestamps[a_down_key_index] > LONG_PRESS_START_MILLISEC:
+                self.a_context_menu_model.next_button_focus()
+                self.down_keys_timestamps[a_down_key_index] = a_current_timestamp - \
+                    (LONG_PRESS_START_MILLISEC - LONG_PRESS_INTERVAL_MILLISEC)
+
+        if a_up_key_index != -1:
+            if a_current_timestamp - self.down_keys_timestamps[a_up_key_index] > LONG_PRESS_START_MILLISEC:
+                self.a_context_menu_model.prev_button_focus()
+                self.down_keys_timestamps[a_up_key_index] = a_current_timestamp - \
+                    (LONG_PRESS_START_MILLISEC - LONG_PRESS_INTERVAL_MILLISEC)
+
+    def key_up_event(self, event: pygame.event.Event) -> None:
+        """キーが離された時の処理を行う"""
+        self.down_keys.remove(event.key)
+
     def events_router(self, event: pygame.event.Event) -> None:
         """イベントのルーティングを行う
 
@@ -217,6 +268,15 @@ class SpiroController:
             self.a_last_mouse_pos = event.pos
             return
 
+        if event.type == pygame.KEYDOWN:
+            self.key_down_event(event)
+            self.a_key_downed_timestamp = pygame.time.get_ticks()
+            return
+
+        if event.type == pygame.KEYUP:
+            self.key_up_event(event)
+            return
+
         if event.type == pygame.QUIT:
             pygame.quit()
             bridge_exit()
@@ -225,3 +285,5 @@ class SpiroController:
         """イベントのルーティングにイベント情報を受け渡す"""
         for event in pygame.event.get():
             self.events_router(event)
+        if pygame.time.get_ticks() - self.a_key_downed_timestamp > LONG_PRESS_START_MILLISEC:
+            self.key_long_down_event()

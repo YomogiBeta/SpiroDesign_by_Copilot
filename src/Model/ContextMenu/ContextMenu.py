@@ -66,6 +66,9 @@ class ContextMenu:
 
         self.context_items: list[ButtonBase | None] = []
 
+        self.focus_index = -1
+        self.before_focus_button = None
+
     def set_menu(self, menu: list) -> None:
         """コンテキストメニューの項目を設定する
 
@@ -148,6 +151,12 @@ class ContextMenu:
     def close_menu(self) -> None:
         """コンテキストメニューを閉じる"""
         # Mouse left down
+        self.focus_index = -1
+        if self.before_focus_button is not None:
+            self.before_focus_button.un_focus()
+
+        self.before_focus_button = None
+
         if self.open_menu_state:
             self.open_menu_state = False
             self.close_render()
@@ -211,3 +220,78 @@ class ContextMenu:
         for item in self.context_items:
             if item is not None:
                 item.check_hover_me(event)
+
+    def has_focused_button_enter(self) -> None:
+        """エンターが押された時にフォーカスされたボタンをクリックする"""
+        if not self.open_menu_state:
+            return
+
+        if self.before_focus_button is not None:
+            self.before_focus_button.click()
+
+        self.close_menu()
+
+    def _check_button_item_enable(self, index: int) -> bool:
+        """ボタンが有効かどうかを判定する
+
+        Args:
+            index (int):
+                ボタンのインデックス
+
+        Returns:
+            bool: ボタンが有効かどうか
+        """
+
+        if self.context_items[index] is not None:
+            return self.context_items[index].enable_status()
+        return False
+
+    def next_button_focus(self) -> None:
+        """次のボタンにフォーカスを当てる"""
+        if not self.open_menu_state:
+            return
+
+        if self.focus_index + 1 < len(self.context_items):
+            a_cache_index = self.focus_index
+            self.focus_index += 1
+
+            if not self._check_button_item_enable(self.focus_index):
+                while not self._check_button_item_enable(self.focus_index):
+                    self.focus_index += 1
+
+                    if self.focus_index >= len(self.context_items):
+                        self.focus_index = a_cache_index
+                        return
+
+            if self.before_focus_button is not None:
+                self.before_focus_button.un_focus()
+
+            self.context_items[self.focus_index].focus()
+            self.before_focus_button = self.context_items[self.focus_index]
+
+    def prev_button_focus(self) -> None:
+        """前のボタンにフォーカスを当てる"""
+        if not self.open_menu_state:
+            return
+
+        if self.focus_index >= -1:
+            a_cache_index = self.focus_index
+
+            if self.focus_index <= 0:
+                self.focus_index = 0
+            else:
+                self.focus_index -= 1
+
+            if not self._check_button_item_enable(self.focus_index):
+                while not self._check_button_item_enable(self.focus_index):
+                    self.focus_index -= 1
+
+                    if self.focus_index < 0:
+                        self.focus_index = a_cache_index
+                        return
+
+            if self.before_focus_button is not None:
+                self.before_focus_button.un_focus()
+
+            self.context_items[self.focus_index].focus()
+            self.before_focus_button = self.context_items[self.focus_index]
