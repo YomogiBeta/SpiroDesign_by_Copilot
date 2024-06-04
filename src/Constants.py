@@ -53,7 +53,7 @@ PINION_GEAR_COLOR = (0, 0, 255)
 GEAR_LINE_COLOR = (0, 255, 0)
 """tuple[int, int, int]: 補助線の色"""
 
-MAX_SPEED = 10
+MAX_SPEED = 90
 """int: 最大速度"""
 MIN_SPEED = 1
 """int: 最小速度"""
