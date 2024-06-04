@@ -13,6 +13,7 @@ from Model.SpiroModel import SpiroModel
 from View.SpiroView import SpiroView
 from View.UiView import UiView
 from bridge_pyjs import ui_call
+from bridge_pyjs.ParseIntBridge import parse_int
 from bridge_pyjs.PygameBridge import pygame, set_icon
 
 
@@ -37,6 +38,7 @@ def create_menu(context_menu: ContextMenu, spiro_model: SpiroModel, root) -> lis
         context_menu.enable_item("stop")
         context_menu.enable_item("speed_up")
         context_menu.enable_item("speed_down")
+        context_menu.enable_item("set_speed")
 
         context_menu.disable_item("color")
         context_menu.disable_item("nib")
@@ -54,6 +56,7 @@ def create_menu(context_menu: ContextMenu, spiro_model: SpiroModel, root) -> lis
         context_menu.enable_item("start")
         context_menu.disable_item("speed_up")
         context_menu.disable_item("speed_down")
+        context_menu.disable_item("set_speed")
 
         context_menu.enable_item("color")
         context_menu.enable_item("rainbow")
@@ -78,7 +81,13 @@ def create_menu(context_menu: ContextMenu, spiro_model: SpiroModel, root) -> lis
         def set_nib(nib: float):
             if nib is not None:
                 spiro_model.set_pen_nib(nib)
-        ui_call.askvalue(root, set_nib, spiro_model.pinion_gear().pen().width)
+        ui_call.askvalue(root, set_nib, 2, 10, spiro_model.pinion_gear().pen().width)
+
+    def set_speed():
+        def set_move_speed(speed: float):
+            if speed is not None:
+                spiro_model.set_speed(parse_int(speed))
+        ui_call.askvalue(root, set_move_speed, 1, 90, spiro_model.speed())
 
     def select_color():
         animationed = spiro_model.animation()
@@ -110,7 +119,8 @@ def create_menu(context_menu: ContextMenu, spiro_model: SpiroModel, root) -> lis
         },
         {
             "speed_up": spiro_model.speed_up,
-            "speed_down": spiro_model.speed_down
+            "speed_down": spiro_model.speed_down,
+            "set_speed": set_speed
         },
         {
             "color": select_color,

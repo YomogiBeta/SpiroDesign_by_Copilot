@@ -146,16 +146,24 @@ def download_content(content, filename: str, mode='w') -> None:
     # downLoadLink.click()
 
 
-def askvalue(master, callback, init_value=1.0) -> None:
+def askvalue(master, callback, min_number, max_number, init_value=1.0) -> None:
     """スライドバーを開き、数値を引数のコールバック関数に渡す
 
     Args:
+        master (tk.Tk):
+            ルートウィンドウ
         callback (Callable[[float], None]):
             数値を引数に取るコールバック関数
+        min (int):
+            最小値
+        max (int):
+            最大値
+        init_value (float, optional):
+            初期値. デフォルトは 1.0 .
     """
 
     # Python
-    ScaleDialog(master, callback, init_value)
+    ScaleDialog(master, callback, min_number, max_number, init_value)
 
     # Javascript
     # slider_panel = document.getElementById('slider-panel')
@@ -165,6 +173,10 @@ def askvalue(master, callback, init_value=1.0) -> None:
     # slider_panel.showModal()
     # slider.value = str(init_value)
     # slider_label.textContent = str(init_value)
+
+    # Javascript
+    # slider.min = min_number
+    # slider.max = max_number
 
     # Javascript
     # def select_value(e):

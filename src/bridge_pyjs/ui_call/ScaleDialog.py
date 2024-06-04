@@ -4,9 +4,11 @@ from tkinter import LEFT
 
 
 class ScaleDialog(simpledialog.Dialog):
-    def __init__(self, master, callback, init_value: int) -> None:
+    def __init__(self, master, callback, min_number: int, max_number: int, init_value: int) -> None:
         self.a_callback = callback
         self.a_init_value = init_value
+        self.a_min = min_number
+        self.a_max = max_number
         super(ScaleDialog, self).__init__(parent=master, title="Select Value")
 
     def body(self, master):
@@ -15,8 +17,8 @@ class ScaleDialog(simpledialog.Dialog):
 
         self.a_scale = Scale(master,
                              command=self.update_value_label,
-                             from_=2,
-                             to=10,
+                             from_=self.a_min,
+                             to=self.a_max,
                              length=320
                              )
         self.a_scale.set(self.a_init_value)

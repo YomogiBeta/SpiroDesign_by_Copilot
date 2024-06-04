@@ -600,6 +600,23 @@ class SpiroModel:
         if self._an_add_angle <= MIN_SPEED:
             self._an_add_angle = MIN_SPEED
 
+    def set_speed(self, speed: int) -> None:
+        """アニメーションのスピードを設定する
+
+        Args:
+            speed (int): アニメーションのスピード
+        """
+        if MIN_SPEED <= speed <= MAX_SPEED:
+            self._an_add_angle = speed
+
+    def speed(self) -> int:
+        """現在のアニメーションスピードを返す
+
+        Returns:
+            int: 現在のアニメーションスピード
+        """
+        return self._an_add_angle
+
     def main_board_surface(self) -> pygame.Surface:
         """メインボードのSurfaceを返す
 
