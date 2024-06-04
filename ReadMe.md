@@ -35,7 +35,7 @@ buildもしくは[web版](https://www.cc.kyoto-su.ac.jp/~g2154352/SpiroDesignWeb
 
 コンテキストメニューは、各メニューボタンをマウスでクリックするか、↑↓矢印キーでボタンを選び、Enterを押すことで押下できます。
 
-<img width="154" alt="スクリーンショット 2023-11-21 17 58 52" src="https://github.com/YomogiBeta/SpiroDesign_by_Copilot/assets/46161490/3dd223d2-6ec6-4d04-b8cd-d16178115b96">
+<img width="157" alt="スクリーンショット 2024-06-05 0 04 14" src="https://github.com/YomogiBeta/SpiroDesign_by_Copilot/assets/46161490/90668ec4-c3ab-4bd7-8c53-32d9b2448d39">
 
 |項目| 説明|
 |:----|:----|
@@ -45,6 +45,7 @@ buildもしくは[web版](https://www.cc.kyoto-su.ac.jp/~g2154352/SpiroDesignWeb
 |clear| 現在描画中であるかどうかに関わらず、スパーギア(赤円)の範囲にある描画を全てクリアします。|
 |speed_up|  シュミレーション速度をあげます。|
 |speed_down|  シュミレーション速度を下げます。|
+|set_speed|  シュミレーション速度を指定するダイアログを開きます。|
 |color| ペンの色を変更するダイアログを開きます。|
 |rainbow| ペンの色を虹色に遷移させるモードをONにします。ペン色を変更するとOFFになります。|
 |nib| ペンの太さを変更するダイアログを開きます。|
