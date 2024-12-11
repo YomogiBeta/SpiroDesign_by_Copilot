@@ -104,7 +104,7 @@ web-build:
 	$(MAKE) zstd_build
 	- transcrypt -od ../web_page/__target__ src/main.py
 	- ${MAKE} rady_python
-	find __target__ -type f -exec sed -i '' '/\/\/# sourceMappingURL=/s/.*/''/' {} \;
+	find web_page/__target__ -type f -exec sed -i '' '/\/\/# sourceMappingURL=/s/.*/''/' {} \; 2>	/dev/null
 
 web-run:
 	open http://localhost:8000/web_page & python -m http.server 8000
