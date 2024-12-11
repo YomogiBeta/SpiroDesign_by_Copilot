@@ -23,6 +23,7 @@ jobs:
       with:
         node-version: '20'
         cache: 'yarn'
+        cache-dependency-path: ./zstd_wasm_builder
 
     - name: build
       run: make web-build
