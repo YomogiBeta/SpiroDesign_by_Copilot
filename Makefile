@@ -96,13 +96,13 @@ zstd_build:
 web-build-dev:
 	${MAKE} rady_javascript
 	$(MAKE) zstd_build
-	- transcrypt -n -m -od ../__target__ src/main.py
+	- transcrypt -n -m -od ../web_page/__target__ src/main.py
 	- ${MAKE} rady_python
 
 web-build:
 	${MAKE} rady_javascript
 	$(MAKE) zstd_build
-	- transcrypt -od ../__target__ src/main.py
+	- transcrypt -od ../web_page/__target__ src/main.py
 	- ${MAKE} rady_python
 	find __target__ -type f -exec sed -i '' '/\/\/# sourceMappingURL=/s/.*/''/' {} \;
 
@@ -118,4 +118,4 @@ clean-metrics:
 	rm -rf MetricsCyclomaticComplexity.txt MetricsMaintainabilityIndex.txt MetricsRaw.txt
 
 clean:
-	rm -rf __target__	build dist MetricsCyclomaticComplexity.txt MetricsMaintainabilityIndex.txt MetricsRaw.txt
+	rm -rf web_page/__target__	build dist MetricsCyclomaticComplexity.txt MetricsMaintainabilityIndex.txt MetricsRaw.txt
