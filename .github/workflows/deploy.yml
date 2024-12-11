@@ -18,6 +18,9 @@ jobs:
       with:
         python-version-file: '.python-version'
 
+    - name: Install Depencies Python package
+      run: pip install -r requirements.txt
+
     - name: Setup Node
       uses: actions/setup-node@v4
       with:
