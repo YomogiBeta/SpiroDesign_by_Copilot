@@ -17,7 +17,7 @@ Pythonをベースとして書かれています。描画ライブラリは「py
 ビルド版の動作環境はMac,windowsです。  
 web版はChrome版を推奨環境としています。
 
-buildもしくは[web版](https://www.cc.kyoto-su.ac.jp/~g2154352/SpiroDesignWeb/web_page/)にアクセスして、利用できます。
+buildもしくは[web版](https://yomogibeta.github.io/SpiroDesign_by_Copilot/)にアクセスして、利用できます。
 
 <img width="499" alt="スクリーンショット 2023-11-21 17 54 03" src="https://github.com/YomogiBeta/SpiroDesign_by_Copilot/assets/46161490/03d99fb6-e85d-4dd6-b929-cb5a5819cd41">
 
