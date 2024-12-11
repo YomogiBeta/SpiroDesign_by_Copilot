@@ -45,12 +45,10 @@ setup-python-mac:
 	PKG_CONFIG_PATH="$(INSTALL_TCL-TK_DIR)/lib/pkgconfig" \
 	PYTHON_CONFIGURE_OPTS="--with-tcltk-includes='-I$(INSTALL_TCL-TK_DIR)/include' --with-tcltk-libs='-L$(INSTALL_TCL-TK_DIR)/lib -ltcl8.6 -ltk8.6'" \
 	pyenv install --skip-existing 3.10.11
-	pyenv local	3.10.11
 	pip install -r requirements.txt
 
 setup-python:
 		pyenv install --skip-existing 3.10.11
-		pyenv local	3.10.11
 		pip install -r requirements.txt
 
 rady_javascript:

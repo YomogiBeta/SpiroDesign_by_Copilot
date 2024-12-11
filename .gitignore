@@ -5,7 +5,6 @@
 MetricsCyclomaticComplexity.txt
 MetricsMaintainabilityIndex.txt
 MetricsRaw.txt
-.python-version
 .DS_Store
 
 # zstd js lib
